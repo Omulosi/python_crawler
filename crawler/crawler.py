@@ -10,10 +10,12 @@ from .utils.helpers import get_links
 
 
 def link_crawler(start_url, link_regex, robots_url=None, user_agent='wswp',
-        max_depth=4, delay=2, scrape_callback=None):
+        max_depth=-1, delay=2, scrape_callback=None):
     """
     Crawl from the given start url and follow links matched
     by link_regex
+
+    max_depth initially set to -1 to not set a limit on crawl depth
     """
     if robots_url is None:
         robots_url = '{}/robots.txt'.format(start_url)
@@ -39,9 +41,9 @@ def link_crawler(start_url, link_regex, robots_url=None, user_agent='wswp',
 
             # filter for links matching regular expression
             for link in get_links(html):
-                if re.search(link_regex, link):
+                if re.search(link_regex, link) and not re.search(r'next',
+                        link):
                     abs_link = urljoin(start_url, link)
-                    print('Abs link:', abs_link)
                     if abs_link not in seen:
                         seen[abs_link] = depth + 1
                         crawl_queue.append(abs_link)
