@@ -5,12 +5,13 @@ import re
 from urllib.parse import urljoin
 from .utils.throttle import Throttle
 from .utils.helpers import get_robots_parser
-from .utils.download import download
+from .utils.downloader import Downloader
 from .utils.helpers import get_links
 
 
-def link_crawler(start_url, link_regex, robots_url=None, user_agent='wswp',
-        max_depth=-1, delay=2, scrape_callback=None):
+def link_crawler(start_url, link_regex, robots_url=None, user_agent=None,
+        max_depth=-1, delay=2, proxies=None, num_retries=2, cache={},
+        scraper_callback=None):
     """
     Crawl from the given start url and follow links matched
     by link_regex
@@ -20,8 +21,8 @@ def link_crawler(start_url, link_regex, robots_url=None, user_agent='wswp',
     if robots_url is None:
         robots_url = '{}/robots.txt'.format(start_url)
     rp = get_robots_parser(robots_url)
-    throttle = Throttle(delay)
-
+    url_downloader = Downloader(delay=delay, user_agent=user_agent, proxies=proxies,
+            cache=cache)
     crawl_queue = [start_url]
     seen = {}
     data = []
@@ -32,13 +33,11 @@ def link_crawler(start_url, link_regex, robots_url=None, user_agent='wswp',
             if depth == max_depth:
                 print('Skipping %s due to depth' % url)
                 continue
-            throttle.wait(url)
-            html = download(url, user_agent=user_agent)
-            if html is None:
+            html = url_downloader(url, user_agent=user_agent)
+            if not html:
                 continue
-            if scrape_callback:
-                data.extend(scrape_callback(url, html) or [])
-
+            if scraper_callback:
+                data.extend(scraper_callback(url, html) or [])
             # filter for links matching regular expression
             for link in get_links(html):
                 if re.search(link_regex, link) and not re.search(r'next',
