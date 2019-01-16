@@ -9,8 +9,8 @@ from .utils.downloader import Downloader
 from .utils.helpers import get_links
 
 
-def link_crawler(start_url, link_regex, robots_url=None, user_agent=None,
-        max_depth=-1, delay=2, proxies=None, num_retries=2, cache={},
+def link_crawler(start_url, link_regex, robots_url=None, user_agent='wswp',
+        max_depth=-1, delay=2, proxies=None, num_retries=2, cache=None,
         scraper_callback=None):
     """
     Crawl from the given start url and follow links matched
@@ -24,7 +24,7 @@ def link_crawler(start_url, link_regex, robots_url=None, user_agent=None,
     url_downloader = Downloader(delay=delay, user_agent=user_agent, proxies=proxies,
             cache=cache)
     crawl_queue = [start_url]
-    seen = {}
+    seen = {start_url: 0}
     data = []
     while crawl_queue:
         url = crawl_queue.pop()
@@ -33,7 +33,7 @@ def link_crawler(start_url, link_regex, robots_url=None, user_agent=None,
             if depth == max_depth:
                 print('Skipping %s due to depth' % url)
                 continue
-            html = url_downloader(url, user_agent=user_agent)
+            html = url_downloader(url, num_retries=num_retries)
             if not html:
                 continue
             if scraper_callback:

@@ -3,7 +3,7 @@ import csv
 from lxml.html import fromstring
 from crawler.crawler import link_crawler
 
-def scrape_callback(url, html):
+def scraper_callback(url, html):
     """
     A typical scraper for extracting data: uses tutorial site as an
     example
@@ -12,6 +12,7 @@ def scrape_callback(url, html):
               'tld', 'currency_code', 'currency_name', 'phone',
               'postal_code_format', 'postal_code_regex', 'languages',
               'neighbours')
+
     if re.search(r'/view/', url):
         tree = fromstring(html)
         all_rows = [

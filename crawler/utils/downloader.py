@@ -9,19 +9,17 @@ Downloads a url
 
 import random
 import requests
-from throttle import Throttle
-
-USER_AGENT = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36'
+from .throttle import Throttle
 
 class Downloader:
     """
     This class uses cache to download pages
     """
 
-    def __init__(self, delay=5, user_agent=None, proxies=None, cache=None,
-            timeout=60):
+    def __init__(self, delay=2, user_agent=None, proxies=None, cache=None,
+                 timeout=60):
         self.throttle = Throttle(delay)
-        self.user_agent = user_agent or USER_AGENT
+        self.user_agent = user_agent or 'wswp'
         self.proxies = proxies
         self.cache = cache or {}
         self.num_retries = None
