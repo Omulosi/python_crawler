@@ -8,15 +8,17 @@ import re
 from urllib.parse import urlsplit
 import json
 import zlib
+from datetime import (datetime, timedelta)
 
 class DiskCache:
 
-    def __init__(self, cache_dir='cache', max_len=255, compress=False,
-            encoding='utf-8'):
+    def __init__(self, cache_dir='cache', max_len=255, compress=True,
+            encoding='utf-8', expires=timedelta(days=30)):
         self.cache_dir = cache_dir
         self.max_len = max_len
         self.compress = compress
         self.encoding = encoding
+        self.expires = expires
 
     def url_to_path(self, url):
         """
@@ -48,8 +50,15 @@ class DiskCache:
             with open(path, mode) as fp:
                 if self.compress:
                     data = zlib.decompress(fp.read()).decode(self.encoding)
-                    return json.loads(data)
-                return json.load(fp)
+                    data = json.loads(data)
+                else:
+                    data = json.load(fp)
+            exp_date = data.get('expires')
+            if exp_date and (datetime.strptime(exp_date, '%Y-%m-%dT%H:%M:%S')
+                             <= datetime.utcnow()):
+                print('cache expired!', exp_date)
+                raise KeyError(url + 'has expired.')
+            return data
         else:
             # URL not yet cached
             raise KeyError(url + ' does not exist')
@@ -66,6 +75,8 @@ class DiskCache:
         if not os.path.exists(folder):
             os.makedirs(folder)
         mode = ('wb' if self.compress else 'w')
+        result['expires'] = (datetime.utcnow() +
+                             self.expires).isoformat(timespec='seconds')
         with open(path, mode) as fp:
             if self.compress:
                 data = bytes(json.dumps(result), self.encoding)
