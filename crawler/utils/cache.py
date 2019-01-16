@@ -8,7 +8,8 @@ import re
 from urllib.parse import urlsplit
 import json
 import zlib
-from datetime import (datetime, timedelta)
+from datetime import datetime, timedelta
+from redis import StrictRedis
 
 class DiskCache:
 
@@ -83,3 +84,32 @@ class DiskCache:
                 fp.write(zlib.compress(data))
             else:
                 json.dump(result, fp)
+
+class RedisCache:
+
+    def __init__(self, client=None, expires=timedelta(days=30),
+                 encoding='utf-8'):
+        # if client not passed, connect to redis using localhost port
+        self.client = client
+        if client is None:
+            self.client = StrictRedis(host='localhost', port=6379, db=0)
+        self.expires = expires
+        self.encoding = encoding
+
+    def __getitem__(self, url):
+        """
+        Load value from redis with given url as key
+        """
+        record = self.client.get(url)
+        if record:
+            return json.loads(record.decode(self.encoding))
+        else:
+            raise KeyError(url + ' does not exist')
+
+    def __setitem__(self, url, result):
+        """
+        Save value in redis with given url as key
+        """
+        data = bytes(json.dumps(result), self.encoding)
+        self.client.setex(url, self.expires, data)
+
