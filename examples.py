@@ -1,5 +1,8 @@
 import re
 import csv
+from zipfile import ZipFile
+from io import TextIOWrapper, BytesIO
+import requests
 from lxml.html import fromstring
 from crawler.crawler import link_crawler
 
@@ -40,3 +43,30 @@ class CsvCallback:
                     tree.xpath('//tr[@id="places_%s__row"]/td[@class="w2p_fw"]' %
                         field)[0].text_content() for field in self.fields]
             self.writer.writerow(all_rows)
+
+
+class AlexaCallback:
+
+    def __init__(self, max_urls=500):
+        self.max_urls = max_urls
+        self.seed_url = 'http://s3.amazonaws.com/alexa-static/top-1m.csv.zip'
+        self.urls = []
+
+    def __call__(self):
+        resp = requests.get(self.seed_url, stream=True)
+        with ZipFile(BytesIO(resp.content)) as zf:
+            csv_filename = zf.namelist()[0]
+            with zf.open(csv_filename) as csv_file:
+                for _, website in csv.reader(TextIOWrapper(csv_file)):
+                    self.urls.append('http://' + website)
+                    if len(self.urls) == self.max_urls:
+                        break
+
+if __name__ == '__main__':
+    from crawler.utils.cache import RedisCache
+    from time import time
+    AC = AlexaCallback()
+    AC()
+    start_time = time()
+    link_crawler(AC.urls, '$^', cache=RedisCache())
+    print('Total time: %ss' % (time() - start_time))
