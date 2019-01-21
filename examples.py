@@ -5,6 +5,7 @@ from io import TextIOWrapper, BytesIO
 import requests
 from lxml.html import fromstring
 from crawler.crawler import link_crawler
+from crawler.threaded_crawler import threaded_crawler
 
 def scraper_callback(url, html):
     """
@@ -65,8 +66,21 @@ class AlexaCallback:
 if __name__ == '__main__':
     from crawler.utils.cache import RedisCache
     from time import time
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Threaded Link Crawler')
+    parser.add_argument('max_threads', type=int, help='maximum number of threads', 
+            nargs='?', default=5)
+    parser.add_argument('url_pattern', type=str, help='regex pattern for url\
+            matching', nargs='?', default='$^')
+    par_args = parser.parse_args()
+
     AC = AlexaCallback()
     AC()
     start_time = time()
     link_crawler(AC.urls, '$^', cache=RedisCache())
+    # print('Total time: %ss' % (time() - start_time))
+
+    # threaded_crawler(AC.urls, par_args.url_pattern, cache=RedisCache(),
+    #        max_threads=par_args.max_threads)
     print('Total time: %ss' % (time() - start_time))
