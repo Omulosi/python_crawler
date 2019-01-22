@@ -78,9 +78,9 @@ if __name__ == '__main__':
     AC = AlexaCallback()
     AC()
     start_time = time()
-    link_crawler(AC.urls, '$^', cache=RedisCache())
+    #link_crawler(AC.urls, '$^', cache=RedisCache())
     # print('Total time: %ss' % (time() - start_time))
 
-    # threaded_crawler(AC.urls, par_args.url_pattern, cache=RedisCache(),
-    #        max_threads=par_args.max_threads)
+    threaded_crawler(AC.urls, par_args.url_pattern, cache=RedisCache(),
+           max_threads=par_args.max_threads)
     print('Total time: %ss' % (time() - start_time))
