@@ -1,0 +1,28 @@
+[
+{
+    "domain": "example.webscraping.com",
+    "hostOnly": true,
+    "httpOnly": false,
+    "name": "session_data_places",
+    "path": "/",
+    "sameSite": "no_restriction",
+    "secure": false,
+    "session": true,
+    "storeId": "0",
+    "value": "\"2a0cdf21ad20dd1b551781ceecb2fb8a:bk4A46tfqpG-s6JHn6gPkYlgWfdPbC1D1dgIjNtwvwbgrsuuulrRguY6ol_2sCidXGqMdJ9MHk5M4uQtJV8aKOQFxzG-esDcfXtnQjMXfxQMD6ODATPBUCIaIBf0_ph2GVNSMLQhGbUBS9rdiR71K0IKexe7M2oJ6Pr2cAg_U08MGAT6VssugZoJt8sZEJ0VDMbJf9Dkl14XYcy5YBsLlQP6XIgTsX4XFDJGdWlRcFgDVnkCCLLM6nXuqxGpOaHfs8HTrDh_BcoDCpf9GDyPMFvR7jDB5w8RisQL0YYsZzWdI5VX8uxZbhIwmK6iZGnJSbYYLCHJDVnxpERKgDgFK_37Lrd7V6-T6ybxgiEdSC8HIszoAqfk_TzxJMI0kfjquHyNGVB5JaaidU1m7qYSq4juLV9k8RZfSBZkVT9o-96g95028wyjY8gV-4BrWzQNPQQs-CYfPaZvwGeGnEmvhnnDVVM4VEQJVXfs3jlDj5UKNE5ePnowy7Wc0QdLUPbrs3YyW_Viu2NdJH4IEt6kd2zCRUUdz1r6D9I-gk7EoKaLCqy2VwspCR8NJjiAX7_cR5oP9fBfoAPmIWF1l-5cntlQ1SoZEb7bWxs_HHwKuppX3I6EbqMX5odcDCCufsL2Jp2FSIM49Zb7hAxRcU9qpcMCcFRDkh4RemiUq8SCtfzgSc9Wmxlim0aSr27fPvbHSaNwc718Z7YP99c76z-8rr3ayLzcoyPhYZK-WMS8jNQNaHtLCakBDKqrj2JCUkLMC_HFCyv2GAWuXdPTXcGMUYGQbwnXCOUYbbQH__fqLuePGppuFe_vjiuZn3BRG6ljOf8cKNpLFs5wDh4_apYZrhqgdwrRT21F4tf65tUMhmxkWkyufRzK6d3kfY3VJxaTSoH_UXFZRE3QZU20mljr8md8txzSXhXw_mPYQOlWyiIcjXGkKje0XjMlyfEJQxBXXy9d4VWk3DSGDR_aUii5oQfAU4uzgbggdG9s7--fxbHwPRv1tCmhQBJWSsEg72Fu3Wa6UYQ6emFczt55FnuthIiHc4HV3105UHPbTAs7HWJdr8rmyTrkXO-1ToAazKaOUXV2DgnoPSzbuPWT50ZAvrSD1s856wzhWoT30ri-rGyMRAEHU5qUMxCWX7W3UqSRNRcMkmIm5ExpbeyazaBgszct05XMlQtaS7wM-sEFTWpUA7kIOG2_Q3yVvDfAHb3zF-7zCNsRKT0ourXdytFRWLQttS2iyVrSZws3UWTJdCTd85xUbUl_YAjylAmw41IHof7ZMhpEprflcSfkvPoQlA==\"",
+    "id": 1
+},
+{
+    "domain": "example.webscraping.com",
+    "hostOnly": true,
+    "httpOnly": true,
+    "name": "session_id_places",
+    "path": "/",
+    "sameSite": "no_restriction",
+    "secure": false,
+    "session": true,
+    "storeId": "0",
+    "value": "True",
+    "id": 2
+}
+]
