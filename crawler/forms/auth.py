@@ -14,7 +14,6 @@ def parse_form(html):
     return data
 
 def login(session=None):
-
     if session is None:
         html = requests.get(LOGIN_URL)
     else:
@@ -28,4 +27,3 @@ def login(session=None):
         response = session.post(LOGIN_URL, data)
     assert 'login' not in response.url
     return response, session
-

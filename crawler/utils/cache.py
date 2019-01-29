@@ -113,6 +113,7 @@ class RedisCache:
         """
         Save value in redis with given url as key
         """
+        # construct an immutable array of bytes using encoding specified 
         data = bytes(json.dumps(result), self.encoding)
         if self.compress:
             data = zlib.compress(data)

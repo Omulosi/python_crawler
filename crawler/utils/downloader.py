@@ -39,7 +39,7 @@ class Downloader:
             # server error so ignore result from cache. Need to re-download
             result = None
         if result is None:
-            # Result not loades from cache so download it
+            # Result not loaded from cache so download it
             self.throttle.wait(url)
             proxies = random.choice(self.proxies) if self.proxies else None
             headers = {'User-Agent': self.user_agent}

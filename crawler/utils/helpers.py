@@ -12,10 +12,10 @@ def get_robots_parser(robots_url):
     Return robot parser object using robots url
     """
     try:
-        rp = robotparser.RobotFileParser()
-        rp.set_url(robots_url)
-        rp.read()
-        return rp
+        robot_parser = robotparser.RobotFileParser()
+        robot_parser.set_url(robots_url)
+        robot_parser.read()
+        return robot_parser
     except Exception as e:
         print('Error finding robots url:', robots_url, e)
 

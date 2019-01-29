@@ -44,13 +44,13 @@ def link_crawler(start_url, link_regex, robots_url=None, user_agent='wswp',
             robots_url = '{}/robots.txt'.format(domain)
             robot_parser = get_robots_parser(robots_url)
             if not robot_parser:
-                # continue to crawl even if there problems finding robots.txt
+                # continue to crawl even if there are problems finding robots.txt
                 # file
                 no_robots = True
             robots[domain] = robot_parser
         elif domain in robots:
             no_robots = True
-        # check url passe robots.txt restrictions
+        # check url passes robots.txt restrictions
         if no_robots or robot_parser.can_fetch(user_agent, url):
             depth = seen.get(url, 0)
             if depth == max_depth:

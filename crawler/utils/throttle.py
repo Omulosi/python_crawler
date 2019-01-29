@@ -13,7 +13,7 @@ class Throttle:
     will sleep if the time since last access was shorter than specified
     delay
 
-    To implement throttling on a crwaler, call an instacen of this class
+    To implement throttling on a crawler, call an instace of this class
     before every download.
 
     >>> throttle = Throttle(delay)
